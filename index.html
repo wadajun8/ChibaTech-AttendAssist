@@ -1,104 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CIT出席アシスト</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#30386C">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CIT出席アシスト</title>
+        <link rel="manifest" href="manifest.json" />
+        <meta name="theme-color" content="#30386C" />
 
+        <style>
+            body {
+                font-family: sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background: #f0f0f0;
+                color: #000;
+                overflow: hidden;
+            }
 
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: #f0f0f0;
-      color: #000;
-      overflow: hidden;
-    }
+            header {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                text-align: center;
+                padding: 15px 0;
+                background: transparent;
+            }
 
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      text-align: center;
-      padding: 15px 0;
-      background: transparent;
-    }
+            h1 {
+                font-size: 26px;
+                margin: 0;
+                color: #30386c;
+            }
 
-    h1 {
-      font-size: 26px;
-      margin: 0;
-      color: #30386C;
-    }
+            main {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                text-align: center;
+            }
 
-    main {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      flex: 1;
-      text-align: center;
-    }
+            h2 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
 
-    h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
+            input {
+                font-size: 28px;
+                padding: 12px;
+                width: 220px;
+                text-align: center;
+                border: 2px solid #30386c;
+                border-radius: 8px;
+            }
 
-    input {
-      font-size: 28px;
-      padding: 12px;
-      width: 220px;
-      text-align: center;
-      border: 2px solid #30386C;
-      border-radius: 8px;
-    }
+            button {
+                margin-top: 30px;
+                font-size: 24px;
+                padding: 15px 40px;
+                background-color: #30386c;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            }
 
-    button {
-      margin-top: 30px;
-      font-size: 24px;
-      padding: 15px 40px;
-      background-color: #30386C;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+            button:hover {
+                opacity: 0.9;
+            }
 
-    button:hover {
-      opacity: 0.9;
-    }
+            .bottom-links {
+                position: fixed;
+                left: 50%;
+                bottom: 52px;
+                transform: translateX(-50%);
+                width: min(calc(100vw - 24px), 960px);
+                display: grid;
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+                gap: clamp(8px, 2vw, 18px);
+                z-index: 2;
+            }
 
-    footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      text-align: center;
-      font-size: 12px;
-      padding: 10px 5px;
-      background: transparent;
-      color: #ccc;
-      line-height: 1.4;
-      word-break: keep-all;
-    }
+            .bottom-link {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                min-width: 0;
+                padding: 0;
+                border: none;
+                background: transparent;
+                color: #fff;
+                text-decoration: none;
+                box-sizing: border-box;
+            }
 
-    /* ダークモード */
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: #121212;
-        color: #fff;
-      }
-      input {
-        background: #1e1e1e;
-        color: #fff;
-      }
-      /* input {
+            .bottom-link-icon {
+                width: 34px;
+                height: 34px;
+                border-radius: 10px;
+                overflow: hidden;
+                flex: 0 0 auto;
+            }
+
+            .bottom-link-icon img {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+            .bottom-link-label {
+                font-size: 12px;
+                line-height: 1.2;
+                font-weight: 700;
+                text-align: center;
+                color: #000;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
+
+            .bottom-link:hover {
+                opacity: 0.92;
+            }
+
+            @media (max-width: 560px) {
+                .bottom-links {
+                    width: calc(100vw - 16px);
+                    gap: 6px;
+                    bottom: 48px;
+                }
+
+                .bottom-link {
+                    padding: 0;
+                }
+
+                .bottom-link-icon {
+                    width: 28px;
+                    height: 28px;
+                }
+
+                .bottom-link-label {
+                    font-size: 10px;
+                }
+            }
+
+            footer {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                text-align: center;
+                font-size: 12px;
+                padding: 10px 5px;
+                background: transparent;
+                color: #ccc;
+                line-height: 1.4;
+                word-break: keep-all;
+            }
+
+            /* ダークモード */
+            @media (prefers-color-scheme: dark) {
+                body {
+                    background: #121212;
+                    color: #fff;
+                }
+                input {
+                    background: #1e1e1e;
+                    color: #fff;
+                }
+                .bottom-link-label {
+                    color: #fff;
+                }
+                /* input {
         border: 2px solid #5a5f9e;
       }
       button {
@@ -107,72 +187,111 @@
       h1 {
         color: #5a5f9e;
       } */
-      footer {
-        color: #222;
-      }
-    }
-  </style>
-</head>
+                footer {
+                    color: #222;
+                }
+            }
+        </style>
+    </head>
 
+    <body>
+        <header>
+            <h1>CIT出席アシスト</h1>
+        </header>
 
+        <main>
+            <h2>教室を入力</h2>
+            <input
+                type="text"
+                id="numberInput"
+                inputmode="numeric"
+                pattern="[0-9]*"
+            />
+            <br />
+            <button id="goButton">出席</button>
+        </main>
 
+        <nav
+            class="bottom-links"
+            aria-label="よく使うリンク"
+            id="bottomLinks"
+        ></nav>
 
-<body>
-  <header>
-    <h1>CIT出席アシスト</h1>
-  </header>
+        <footer>
+            このツールの利用によって生じるいかなる問題について、<wbr />制作者は一切の責任を負いません。
+        </footer>
 
-  <main>
-    <h2>教室を入力</h2>
-    <input 
-      type="text" 
-      id="numberInput" 
-      inputmode="numeric" 
-      pattern="[0-9]*">
-    <br>
-    <button id="goButton">出席</button>
-  </main>
+        <script>
+            const input = document.getElementById("numberInput");
+            const button = document.getElementById("goButton");
 
-  <footer>
-    このツールの利用によって生じるいかなる問題について、<wbr>制作者は一切の責任を負いません。
-  </footer>
+            function jump() {
+                const value = input.value.trim();
+                if (value !== "") {
+                    const targetUrl =
+                        "https://attendance.is.it-chiba.ac.jp/attendance/class_room/" +
+                        value;
+                    window.location.href = targetUrl;
+                }
+            }
 
+            // ボタン移動
+            button.addEventListener("click", jump);
 
+            // Enter移動
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") jump();
+            });
 
+            // change移動
+            input.addEventListener("change", jump);
 
-  <script>
-    const input = document.getElementById("numberInput");
-    const button = document.getElementById("goButton");
+            // blur移動 厄介
+            // input.addEventListener("blur", jump);
 
+            // configからリンクを生成
+            async function loadLinks() {
+                try {
+                    const response = await fetch("link/config.json");
+                    const config = await response.json();
+                    const bottomLinksContainer =
+                        document.getElementById("bottomLinks");
 
-    function jump() {
-      const value = input.value.trim();
-      if (value !== "") {
-        const targetUrl = "https://attendance.is.it-chiba.ac.jp/attendance/class_room/" + value;
-        // const targetUrl = "https://awdawdawd.com/" + value;
-        window.location.href = targetUrl;
-      }
-    }
+                    config.links.forEach((link) => {
+                        const a = document.createElement("a");
+                        a.className = "bottom-link";
+                        a.href = link.url;
+                        a.target = "_blank";
+                        a.rel = "noopener noreferrer";
 
-    // ボタン移動
-    button.addEventListener("click", jump);
+                        const iconSpan = document.createElement("span");
+                        iconSpan.className = "bottom-link-icon";
 
-    // Enter移動
-    input.addEventListener("keydown", e => { if (e.key === "Enter") jump(); });
+                        const img = document.createElement("img");
+                        img.alt = "";
+                        img.src = link.icon;
 
-    // change移動
-    input.addEventListener("change", jump);
+                        iconSpan.appendChild(img);
 
-    // blur移動 厄介
-    // input.addEventListener("blur", jump);
+                        const labelSpan = document.createElement("span");
+                        labelSpan.className = "bottom-link-label";
+                        labelSpan.textContent = link.label;
 
+                        a.appendChild(iconSpan);
+                        a.appendChild(labelSpan);
 
-    // オートフォーカス
-    window.addEventListener("load", function() {
-      const input = document.getElementById("numberInput");
-      input.focus();
-    });
-  </script>
+                        bottomLinksContainer.appendChild(a);
+                    });
+                } catch (error) {
+                    console.error("configの読み込みに失敗しました:", error);
+                }
+            }
 
-</body>
+            // オートフォーカス
+            window.addEventListener("load", function () {
+                input.focus();
+                loadLinks();
+            });
+        </script>
+    </body>
 </html>
