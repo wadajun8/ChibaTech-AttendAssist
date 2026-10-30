@@ -1,6 +1,6 @@
 {
-  "name": "Chiba Tech出席アシスト",
-  "short_name": "Chiba Tech出席",
+  "name": "ChibaTech出席アシスト",
+  "short_name": "ChibaTech出席",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f0f0f0",
