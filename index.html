@@ -50,23 +50,34 @@
                 margin-bottom: 20px;
             }
 
+            .input-wrap {
+                position: relative;
+                display: inline-block;
+            }
+
             input {
                 font-size: 28px;
-                padding: 12px;
-                width: 220px;
+                padding: 12px 60px;
+                width: 280px;
+                box-sizing: border-box;
                 text-align: center;
                 border: 2px solid #30386c;
                 border-radius: 8px;
             }
 
             button {
-                margin-top: 30px;
+                position: absolute;
+                right: 6px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 48px;
+                height: 48px;
                 font-size: 24px;
-                padding: 15px 40px;
+                padding: 0;
                 background-color: #30386c;
                 color: #fff;
                 border: none;
-                border-radius: 8px;
+                border-radius: 50%;
                 cursor: pointer;
             }
 
@@ -201,14 +212,16 @@
 
         <main>
             <h2>教室を入力</h2>
-            <input
-                type="text"
-                id="numberInput"
-                inputmode="numeric"
-                pattern="[0-9]*"
-            />
-            <br />
-            <button id="goButton">出席</button>
+            <div class="input-wrap">
+                <input
+                    type="text"
+                    id="numberInput"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    autofocus
+                />
+                <button id="goButton" aria-label="出席">→</button>
+            </div>
         </main>
 
         <nav
@@ -224,6 +237,9 @@
         <script>
             const input = document.getElementById("numberInput");
             const button = document.getElementById("goButton");
+
+            // オートフォーカス（画像の読み込みを待たない）
+            input.focus();
 
             function jump() {
                 const value = input.value.trim();
@@ -287,9 +303,7 @@
                 }
             }
 
-            // オートフォーカス
             window.addEventListener("load", function () {
-                input.focus();
                 loadLinks();
             });
         </script>
