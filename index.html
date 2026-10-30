@@ -15,6 +15,7 @@
                 justify-content: center;
                 align-items: center;
                 height: 100vh;
+                height: 100dvh;
                 margin: 0;
                 background: #f0f0f0;
                 color: #000;
@@ -39,9 +40,11 @@
             main {
                 display: flex;
                 flex-direction: column;
-                justify-content: center;
+                justify-content: flex-start;
                 align-items: center;
                 flex: 1;
+                /* キーボード表示時に下のリンクと重ならないよう上寄せ */
+                padding-top: clamp(64px, 18vh, 160px);
                 text-align: center;
             }
 
