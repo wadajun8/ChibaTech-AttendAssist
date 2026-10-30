@@ -43,8 +43,7 @@
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: center;
-                flex: 1;
-                min-height: 0;
+                flex: 0 0 auto;
                 /* キーボード表示時に下のリンクと重ならないよう上寄せ */
                 padding-top: clamp(64px, 18vh, 160px);
                 text-align: center;
@@ -92,7 +91,7 @@
 
             .bottom-links {
                 flex: 0 0 auto;
-                margin: 0 auto 8px;
+                margin: 28px auto 0;
                 width: min(calc(100vw - 24px), 960px);
                 display: grid;
                 grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -167,6 +166,7 @@
 
             footer {
                 flex: 0 0 auto;
+                margin-top: auto;
                 width: 100%;
                 text-align: center;
                 font-size: 12px;
@@ -178,7 +178,6 @@
             }
 
             /* キーボード表示中（iOSはブラウザによって自動でずらさないため） */
-            body.keyboard-open .bottom-links,
             body.keyboard-open footer {
                 display: none;
             }
