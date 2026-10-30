@@ -179,6 +179,16 @@
                 word-break: keep-all;
             }
 
+            /* キーボード表示中（iOSはブラウザによって自動でずらさないため） */
+            body.keyboard-open .bottom-links,
+            body.keyboard-open footer {
+                display: none;
+            }
+
+            body.keyboard-open main {
+                padding-top: 72px;
+            }
+
             /* ダークモード */
             @media (prefers-color-scheme: dark) {
                 body {
@@ -267,6 +277,22 @@
 
             // blur移動 厄介
             // input.addEventListener("blur", jump);
+
+            // キーボード表示の検知（見えている高さが大きく縮んだら表示中とみなす）
+            function updateKeyboardState() {
+                const vv = window.visualViewport;
+                const open = window.innerHeight - vv.height > 150;
+                document.body.classList.toggle("keyboard-open", open);
+            }
+
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener(
+                    "resize",
+                    updateKeyboardState,
+                );
+                input.addEventListener("focus", updateKeyboardState);
+                input.addEventListener("blur", updateKeyboardState);
+            }
 
             // configからリンクを生成
             async function loadLinks() {
