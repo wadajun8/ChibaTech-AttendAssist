@@ -16,6 +16,7 @@
                 align-items: center;
                 height: 100vh;
                 height: 100dvh;
+                height: var(--app-height, 100dvh);
                 margin: 0;
                 background: #f0f0f0;
                 color: #000;
@@ -43,6 +44,7 @@
                 justify-content: flex-start;
                 align-items: center;
                 flex: 1;
+                min-height: 0;
                 /* キーボード表示時に下のリンクと重ならないよう上寄せ */
                 padding-top: clamp(64px, 18vh, 160px);
                 text-align: center;
@@ -89,10 +91,8 @@
             }
 
             .bottom-links {
-                position: fixed;
-                left: 50%;
-                bottom: 52px;
-                transform: translateX(-50%);
+                flex: 0 0 auto;
+                margin: 0 auto 8px;
                 width: min(calc(100vw - 24px), 960px);
                 display: grid;
                 grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -149,7 +149,6 @@
                 .bottom-links {
                     width: calc(100vw - 16px);
                     gap: 6px;
-                    bottom: 48px;
                 }
 
                 .bottom-link {
@@ -167,8 +166,7 @@
             }
 
             footer {
-                position: fixed;
-                bottom: 0;
+                flex: 0 0 auto;
                 width: 100%;
                 text-align: center;
                 font-size: 12px;
@@ -279,20 +277,38 @@
             // input.addEventListener("blur", jump);
 
             // キーボード表示の検知（見えている高さが大きく縮んだら表示中とみなす）
+            // Braveのように画面全体が縮むブラウザもあるため、
+            // これまでに見えた最大の高さと比べて判定する
+            let maxViewportHeight = 0;
+
             function updateKeyboardState() {
-                const vv = window.visualViewport;
-                const open = window.innerHeight - vv.height > 150;
+                const height = window.visualViewport
+                    ? window.visualViewport.height
+                    : window.innerHeight;
+                document.documentElement.style.setProperty(
+                    "--app-height",
+                    height + "px",
+                );
+                if (height > maxViewportHeight) maxViewportHeight = height;
+                const open = maxViewportHeight - height > 150;
                 document.body.classList.toggle("keyboard-open", open);
             }
+
+            window.addEventListener("orientationchange", () => {
+                maxViewportHeight = 0;
+                setTimeout(updateKeyboardState, 300);
+            });
 
             if (window.visualViewport) {
                 window.visualViewport.addEventListener(
                     "resize",
                     updateKeyboardState,
                 );
-                input.addEventListener("focus", updateKeyboardState);
-                input.addEventListener("blur", updateKeyboardState);
             }
+            window.addEventListener("resize", updateKeyboardState);
+            input.addEventListener("focus", updateKeyboardState);
+            input.addEventListener("blur", updateKeyboardState);
+            updateKeyboardState();
 
             // configからリンクを生成
             async function loadLinks() {
